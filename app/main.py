@@ -7,16 +7,31 @@ from starlette.applications import Starlette
 from starlette.responses import StreamingResponse
 
 
-
 app = Starlette()
+
+POSTGRES_URL = os.getenv('POSTGRES_URL')
+
+assert POSTGRES_URL is not None and POSTGRES_URL != ''
 
 
 def copy_to_pipe(fp_write):
-    with psycopg2.connect(
-        "dbname=accidents user=postgres password=PASSWORD host=postgres") as conn:
+    with psycopg2.connect(POSTGRES_URL) as conn:
         with conn.cursor() as cur:
             with os.fdopen(fp_write, 'w') as fp:
-                fp.write('id,source_file,import_timestamp,source_file_hash,source_row_number,placeplace_near,day_of_week,date,time_of_day,accident_category,hit_and_run,urban,extra_urban,deaths,seriously_injured,slightly_injured,number_of_participants,pedestrian,bicycle,helmet,small_moped,moped,motorcycle,car,lorry,omnibus,other_road_user,participants_01,participants_01_registration,participants_02,participants_02_registration,alcoholized,accident_type,cause_1_4,cause_2,cause_3,cause_other,cause_02,light_conditions,road_condition,participants_child,participants_18_24,participants_senior,participants_age_01,participants_age_02\n')
+                fp.write('id,source_file,import_timestamp,source_file_hash,' +
+                         'source_row_number,placeplace_near,day_of_week,' +
+                         'date,time_of_day,accident_category,hit_and_run,' +
+                         'urban,extra_urban,deaths,seriously_injured,' +
+                         'slightly_injured,number_of_participants,' +
+                         'pedestrian,bicycle,helmet,small_moped,moped,' +
+                         'motorcycle,car,lorry,omnibus,other_road_user,' +
+                         'participants_01,participants_01_registration,' +
+                         'participants_02,participants_02_registration,' +
+                         'alcoholized,accident_type,cause_1_4,cause_2,' +
+                         'cause_3,cause_other,cause_02,light_conditions,' +
+                         'road_condition,participants_child,' +
+                         'participants_18_24,participants_senior,' +
+                         'participants_age_01,participants_age_02\n')
                 cur.copy_expert(
                     """
                     COPY (SELECT
