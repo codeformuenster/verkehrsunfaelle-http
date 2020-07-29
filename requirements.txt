@@ -4,13 +4,12 @@
 #
 #    pip-compile
 #
-apyio==0.2.0
 click==7.0                # via uvicorn
-gunicorn==19.9.0
+gunicorn==19.9.0          # via -r requirements.in
 h11==0.8.1                # via uvicorn
-httptools==0.0.13         # via uvicorn
-psycopg2-binary==2.8.3
-starlette==0.12.7
-uvicorn==0.8.6
-uvloop==0.12.2            # via uvicorn
-websockets==7.0           # via uvicorn
+httptools==0.1.1          # via uvicorn
+psycopg2-binary==2.8.3    # via -r requirements.in
+starlette==0.12.7         # via -r requirements.in
+uvicorn==0.11.7           # via -r requirements.in
+uvloop==0.14.0            # via uvicorn
+websockets==8.1           # via uvicorn
